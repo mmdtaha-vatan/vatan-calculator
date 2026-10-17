@@ -1,0 +1,116 @@
+body {
+  background-color: #303030;
+  font-family: Yellow-Banana;
+}
+
+@font-face {
+  font-family: ighteous-Regular;
+  src: url(/font/Righteous-Regular.ttf);
+}
+@font-face {
+  font-family: Yellow-Banana;
+  src: url(/font/Yellow\ Banana.otf);
+}
+
+.calculator {
+  width: 550px;
+  background-color: #363636;
+  margin: 0 auto;
+  padding: 1rem 1.8rem;
+  min-height: 50vh;
+  margin-top: 14rem;
+  border-radius: 3.7rem;
+}
+
+.calculator-defzero {
+  padding: 1.6rem 2rem;
+  background-color: #fff;
+  border-radius: 4rem;
+  backdrop-filter: blur(7px);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #707070;
+}
+
+.calculator-defzero > span {
+  display: flex;
+  justify-content: flex-end;
+  color: #ffffff;
+  font-family: ighteous-Regular;
+  font-size: 2rem;
+}
+
+.kyes {
+  background-color: #404040;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.calculator__kye {
+  width: 7rem;
+  height: 6.5rem;
+  background-color: #006fff;
+  color: #ffffff;
+  border-radius: 30px;
+  font-size: 2rem;
+  margin: 0;
+  border: none;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
+  text-align: center;
+  font-family: ighteous-Regular;
+  /* font-family: Yellow-Banana; */
+}
+
+.calculator__key--operator {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 9rem;
+  background-color: #ff8309;
+  color: #ffffff;
+  font-size: 2rem;
+  margin: 0;
+  border: none;
+  text-align: center;
+  font-family: Yellow-Banana;
+}
+
+.calculator__kye--ac {
+  background-color: #ff0909;
+  color: #ffffff;
+  padding: 1.6rem 2.4rem;
+  border-radius: 1.4rem;
+  border: none;
+  font-size: 1.5rem;
+  margin: 0;
+  font-family: ighteous-Regular;
+}
+
+.calculator__kye--mosav {
+  width: 7.2rem;
+  height: 6rem;
+  background-color: rgb(255, 0, 0);
+  /* padding: 2.5rem 3.5rem; */
+  text-align: center;
+  border-radius: 40px;
+}
+
+#particle-network {
+  position: fixed;
+  inset: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 0;
+}
+
+.calculator {
+  position: relative;
+  z-index: 1;
+}

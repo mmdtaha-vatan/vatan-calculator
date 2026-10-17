@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>calculator</title>
+    <link
+      rel="shortcut icon"
+      href="./img/streamline-plump-color-calculator-1-flat.svg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="./css/app.css" />
+  </head>
+  <body>
+    <canvas
+      id="particle-network"
+      style="width: 100%; height: 100%; display: block"
+    ></canvas>
+    <div class="calculator">
+      <div class="calculator-defzero"><span id="monitor">0</span></div>
+      <div class="kyes">
+        <button class="calculator__kye">1</button>
+        <button class="calculator__kye">2</button>
+        <button class="calculator__kye">3</button>
+        <button class="calculator__key--operator">+</button>
+        <button class="calculator__kye">4</button>
+        <button class="calculator__kye">5</button>
+        <button class="calculator__kye">6</button>
+        <button class="calculator__key--operator">-</button>
+        <button class="calculator__kye">7</button>
+        <button class="calculator__kye">8</button>
+        <button class="calculator__kye">9</button>
+        <button class="calculator__key--operator">÷</button>
+        <button class="calculator__kye--ac">ac</button>
+        <button class="calculator__kye">0</button>
+        <button
+          class="calculator__key--operator calculator__kye--mosav"
+          id="calculator__key--equal"
+        >
+          =
+        </button>
+        <button class="calculator__key--operator">×</button>
+      </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+    <script>
+      const COUNT = 200,
+        SPEED = 1.5,
+        LINK_DIST = 140,
+        DOT_SIZE = 3.1;
+      const canvas = document.getElementById("particle-network");
+      const ctx = canvas.getContext("2d");
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let pts = [],
+        W = 0,
+        H = 0,
+        mx = -9999,
+        my = -9999;
+      function resize() {
+        W = canvas.clientWidth;
+        H = canvas.clientHeight;
+        canvas.width = W;
+        canvas.height = H;
+      }
+      function seed() {
+        pts = [];
+        for (let i = 0; i < COUNT; i++)
+          pts.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            vx: Math.random() - 0.5,
+            vy: Math.random() - 0.5,
+          });
+      }
+      resize();
+      seed();
+      addEventListener("resize", () => {
+        resize();
+        seed();
+      });
+      canvas.addEventListener("mousemove", (e) => {
+        const r = canvas.getBoundingClientRect();
+        mx = e.clientX - r.left;
+        my = e.clientY - r.top;
+      });
+      canvas.addEventListener("mouseleave", () => {
+        mx = -9999;
+        my = -9999;
+      });
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of pts) {
+          const dx = p.x - mx,
+            dy = p.y - my,
+            d = Math.hypot(dx, dy);
+          if (d < 100) {
+            p.vx += (dx / d) * 0.35;
+            p.vy += (dy / d) * 0.35;
+          }
+          p.vx *= 0.97;
+          p.vy *= 0.97;
+          if (Math.hypot(p.vx, p.vy) < 0.25) {
+            p.vx += (Math.random() - 0.5) * 0.1;
+            p.vy += (Math.random() - 0.5) * 0.1;
+          }
+          p.x += p.vx * SPEED;
+          p.y += p.vy * SPEED;
+          if (p.x < 0 || p.x > W) p.vx *= -1;
+          if (p.y < 0 || p.y > H) p.vy *= -1;
+          p.x = Math.max(0, Math.min(W, p.x));
+          p.y = Math.max(0, Math.min(H, p.y));
+        }
+        for (let i = 0; i < pts.length; i++)
+          for (let j = i + 1; j < pts.length; j++) {
+            const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
+            if (d < LINK_DIST) {
+              ctx.strokeStyle =
+                "rgba(139,124,246," + 0.45 * (1 - d / LINK_DIST) + ")";
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x, pts[i].y);
+              ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.stroke();
+            }
+          }
+        ctx.fillStyle = "#a99cff";
+        for (const p of pts) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, DOT_SIZE, 0, 7);
+          ctx.fill();
+        }
+        if (!reduced) requestAnimationFrame(frame);
+      }
+      frame();
+    </script>
+  </body>
+</html>
